@@ -2,13 +2,15 @@ const display = document.querySelector(".display");
 const btnNumbers = document.querySelectorAll(".numbers");
 const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector(".equals");
+const clearbtn = document.querySelector(".clear-btn");
 display.textContent = 0;
 
 let num1 = "";
 let num2 = "";
 let operator = "";
+let operatorAux = "";
 let equals = "";
-let result = 0;
+let result = "";
 
 function add(num1, num2){
     return Number(num1) + Number(num2);
@@ -27,47 +29,91 @@ function div(num1, num2){
 }
 
 function operate(num1, num2, operate){
-    if (operate == "add"){
-    result = add(num1, num2);
+    if (operate == "+")
+        result = add(num1, num2);
+    if (operate == "-")
+        result = sub(num1, num2); 
+    if (operate == "*")
+        result = mult(num1, num2);
+    if (operate == "/")
+        result = div(num1, num2);
+
     display.textContent = result;
-}
-    if (operate == "sub")
-    result = sub(num1, num2);
-
-    if (operate == "mult")
-    result = mult(num1, num2);
-
-    if (operate == "div")
-    result = div(num1, num2);
 }
 
 for (let btn of btnNumbers){
     btn.addEventListener('click', () => {
-        if (num1 == "" || operator == ""){
-            num1 += btn.value;
-            display.textContent = num1; 
-        } else if (equals !== "equals"){
+        if (num1.length <= 12 && operator == ""){
+            if (num1.length === 12){
+                display.textContent = "Number is too big";
+                num1 = "";
+            } else {
+                num1 += btn.value;
+                display.textContent = num1; 
+            } 
+        } else if (num1 !== "" && operator !== "") {
+            if (num2.length === 12){
+                display.textContent = "Number is too big";
+                num2 = "";
+            } else {
+                num2 += btn.value;
+                display.textContent = num2;
+            }
+        } else if (num1 !== "" && num2 == "" && result !== ""){
             num2 += btn.value;
-            display.textContent = num2;
-         }
+            display.textContent = num2;        
+        }
     });
 }
+
 
 for (let btnOperator of operatorBtns) {
     btnOperator.addEventListener('click', () => {
-        operator = btnOperator.value;
-        if (operator == "+"){
+        if (operator == ""){
+            operator = btnOperator.value;
+            operatorAux = operator;
             display.textContent = operator;
-            return operator = "add";
-        } if (operator == "-"){
-            display.textContent = operator;
-            return operator = "add";
+        } else {
+            operator = btnOperator.value;
+            display.textContent = operator;  
         }
         
-    });
+        if (operator !== operatorAux) {
+            operate(num1, num2, operatorAux);
+            num1 = result;
+            num2 = "";
+            operatorAux = operator;
+        } else if (num2 !== ""){
+            operate(num1, num2, operator);
+            num1 = result;
+            num2 = "";
+          
+        }
+  });
+}
+
+
+
+function equalsCode(){
+    if (num1 !== "" && num2 !== "" && operator !== ""){
+        operate(num1, num2, operator);
+        num1 = result;
+        num2 = "";
+    }
 }
 
 equalsBtn.addEventListener('click', () => {
-    equals = "equals";
-    operate(num1, num2, operator);
+    equalsCode();
 });
+
+clearbtn.addEventListener('click', () => {
+    clearAll();
+}) 
+
+function clearAll(){
+    display.textContent = 0;
+    num1 = "";
+    num2 = "";
+    operator = "";
+    result = "";
+}
