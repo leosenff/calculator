@@ -34,10 +34,9 @@ function disableAll() {
     for (let i = 0; i < operatorBtns.length; i++){
         operatorBtns[i].disabled = true;
     }
-    clearbtn.disabled = true;
+
     equalsBtn.disabled = true;
 }
-
 
 function operate(num1, num2, operate){
     if (operate == "+")
@@ -46,13 +45,15 @@ function operate(num1, num2, operate){
         result = sub(num1, num2); 
     if (operate == "*")
         result = mult(num1, num2);
+    
     if (operate == "/"){
         if (Number(num2) === 0){
             disableAll();
             return display.textContent = "lol";
-    } else {
-        result = div(num1, num2);
-    }}
+        } else {
+            result = div(num1, num2);
+        }
+    }
 
     display.textContent = Math.round (result * 1e2) / 1e2;
 }
@@ -94,6 +95,7 @@ for (let btnOperator of operatorBtns) {
         }
         
         if (operator !== operatorAux) {
+            console.log("passei tbm aqui");
             operate(num1, num2, operatorAux);
             num1 = result;
             num2 = "";
@@ -106,16 +108,13 @@ for (let btnOperator of operatorBtns) {
   });
 }
 
-function equalsCode(){
+equalsBtn.addEventListener('click', () => {
     if (num1 !== "" && num2 !== "" && operator !== ""){
         operate(num1, num2, operator);
         num1 = result;
         num2 = "";
+        operator = "";
     }
-}
-
-equalsBtn.addEventListener('click', () => {
-    equalsCode();
 });
 
 clearbtn.addEventListener('click', () => {
@@ -128,4 +127,11 @@ function clearAll(){
     num2 = "";
     operator = "";
     result = null;
+    for (let i = 0; i < btnNumbers.length; i++){
+        btnNumbers[i].disabled = false;
+    }
+    for (let i = 0; i < operatorBtns.length; i++){
+        operatorBtns[i].disabled = false;
+    }
+    equalsBtn.disabled = false;
 }
