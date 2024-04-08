@@ -9,8 +9,7 @@ let num1 = "";
 let num2 = "";
 let operator = "";
 let operatorAux = "";
-let equals = "";
-let result = "";
+let result = null;
 
 function add(num1, num2){
     return Number(num1) + Number(num2);
@@ -25,20 +24,37 @@ function mult(num1, num2){
 }
 
 function div(num1, num2){
-    return num1 / num2;
+    return num1 / num2; 
 }
+
+function disableAll() {
+    for (let i = 0; i < btnNumbers.length; i++){
+        btnNumbers[i].disabled = true;
+    }
+    for (let i = 0; i < operatorBtns.length; i++){
+        operatorBtns[i].disabled = true;
+    }
+    clearbtn.disabled = true;
+    equalsBtn.disabled = true;
+}
+
 
 function operate(num1, num2, operate){
     if (operate == "+")
-        result = add(num1, num2);
+        result = add(num1, num2)
     if (operate == "-")
         result = sub(num1, num2); 
     if (operate == "*")
         result = mult(num1, num2);
-    if (operate == "/")
+    if (operate == "/"){
+        if (Number(num2) === 0){
+            disableAll();
+            return display.textContent = "lol";
+    } else {
         result = div(num1, num2);
+    }}
 
-    display.textContent = result;
+    display.textContent = Math.round (result * 1e2) / 1e2;
 }
 
 for (let btn of btnNumbers){
@@ -59,13 +75,12 @@ for (let btn of btnNumbers){
                 num2 += btn.value;
                 display.textContent = num2;
             }
-        } else if (num1 !== "" && num2 == "" && result !== ""){
+        } else if (num1 !== "" && num2 == "" && result !== null){
             num2 += btn.value;
             display.textContent = num2;        
         }
     });
 }
-
 
 for (let btnOperator of operatorBtns) {
     btnOperator.addEventListener('click', () => {
@@ -87,12 +102,9 @@ for (let btnOperator of operatorBtns) {
             operate(num1, num2, operator);
             num1 = result;
             num2 = "";
-          
         }
   });
 }
-
-
 
 function equalsCode(){
     if (num1 !== "" && num2 !== "" && operator !== ""){
@@ -115,5 +127,5 @@ function clearAll(){
     num1 = "";
     num2 = "";
     operator = "";
-    result = "";
+    result = null;
 }
