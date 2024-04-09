@@ -4,6 +4,7 @@ const operatorBtns = document.querySelectorAll(".operator");
 const equalsBtn = document.querySelector(".equals");
 const clearbtn = document.querySelector(".clear-btn");
 const decimal = document.querySelector(".decimal");
+const backspace = document.querySelector(".backspace");
 display.textContent = 0;
 
 let num1 = "";
@@ -37,6 +38,7 @@ function disableAll() {
         operatorBtns[i].disabled = true;
     }
     equalsBtn.disabled = true;
+    decimal.disabled = true;
 }
 
 function operate(num1, num2, operate){
@@ -54,7 +56,7 @@ function operate(num1, num2, operate){
             result = div(num1, num2);
         }
     }
-
+    console.log(num1, operate, num2, "=", result);
     display.textContent = Math.round (result * 1e6) / 1e6;
 }
 
@@ -124,11 +126,28 @@ equalsBtn.addEventListener('click', () => {
 
 clearbtn.addEventListener('click', () => {
     clearAll();
-}) 
+});
 
 decimal.addEventListener('click', () => {
     displayDot();
-})
+});
+
+backspace.addEventListener('click', () => {
+    deleteNum();
+});
+
+function deleteNum(){
+    if (currentNum == num1 && operator == ""){
+        num1 = num1.slice(0, -1);
+        currentNum = num1;
+        display.textContent = num1;
+    } else if (currentNum == num2){
+        num2 = num2.slice(0, -1);
+        currentNum = num2;
+        display.textContent = num2;
+    }
+
+}
 
 function displayDot(){
     if (currentNum == num1 && !num1.includes(".")){
@@ -153,4 +172,5 @@ function clearAll(){
         operatorBtns[i].disabled = false;
     }
     equalsBtn.disabled = false;
+    decimal.disabled = false;
 }
