@@ -13,6 +13,7 @@ let operator = "";
 let operatorAux = "";
 let result = null;
 let currentNum = "";
+let equals = "";
 
 function add(num1, num2){
     return Number(num1) + Number(num2);
@@ -39,6 +40,7 @@ function disableAll() {
     }
     equalsBtn.disabled = true;
     decimal.disabled = true;
+    backspace.disabled = true;
 }
 
 function operate(num1, num2, operate){
@@ -80,11 +82,15 @@ for (let btn of btnNumbers){
                 currentNum = num2;
                 display.textContent = num2;
             }
-        } else if (num1 !== "" && num2 == "" && result !== null){
-            num2 += btn.value;
-            currentNum = num2;
-            display.textContent = num2;        
-        }
+//When insert a new number without a new operartor, starts a fresh operation
+        } else if (num1 !== "" && result !== null && equals === "pressed"){
+            console.log("Aqui?")
+            num1 = "";
+            num1 += btn.value;
+            equals = "";
+            currentNum = num1;
+            display.textContent = num1;        
+         }
     });
 }
 
@@ -96,22 +102,24 @@ for (let btnOperator of operatorBtns) {
             operatorAux = operator;
         } else {
             operator = btnOperator.value;
-            display.textContent = operator;
         }
-        
-        if (operator !== operatorAux) {
-            operate(num1, num2, operatorAux);
-            num1 = result;
-            num2 = "";
-            console.log("Previous Operator :", operatorAux);
-            operatorAux = operator;
-        } else if (num2 !== ""){
-            operate(num1, num2, operator);
-            num1 = result;
-            num2 = "";
-        }
+
+//Do the previous operation if choose other operator
+        if (num2 !== "") {
+            if (operator !== operatorAux) {
+                operate(num1, num2, operatorAux);
+                num1 = result;
+                num2 = "";
+                console.log("Previous Operator :", operatorAux);
+                operatorAux = operator;
+            } else if (num2 !== ""){
+                operate(num1, num2, operator);
+                num1 = result;
+                num2 = "";
+            }
         console.log("Selected Operator :", operator);
-    }    
+        }    
+    }
   });
 }
 
@@ -119,6 +127,7 @@ equalsBtn.addEventListener('click', () => {
     if (num1 !== "" && num2 !== "" && operator !== ""){
         operate(num1, num2, operator);
         num1 = result;
+        equals = "pressed";
         num2 = "";
         operator = "";
     }
@@ -173,4 +182,5 @@ function clearAll(){
     }
     equalsBtn.disabled = false;
     decimal.disabled = false;
+    backspace.disabled = false;
 }
