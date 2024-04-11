@@ -1,0 +1,28 @@
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
+    border: 1px solid black;
+ 
+}
+
+.display {
+    border: 1px solid black;
+    background: white;
+    width: 120px;
+    height: 18px;
+    text-align: end;
+}
+
+.keyboard{
+
+}
