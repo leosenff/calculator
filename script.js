@@ -64,9 +64,9 @@ function operate(num1, num2, operate){
 
 for (let btn of btnNumbers){
     btn.addEventListener('click', () => {
-        if (num1.length <= 12 && operator == ""){
-            if (num1.length === 12){
-                display.textContent = "Number is too big";
+        if (num1.length <= 9 && operator == ""){
+            if (num1.length === 8){
+                display.textContent = "Num is too big";
                 num1 = "";
             } else {
                 num1 += btn.value;
@@ -74,8 +74,8 @@ for (let btn of btnNumbers){
                 display.textContent = num1; 
             } 
         } else if (num1 !== "" && operator !== "") {
-            if (num2.length === 12){
-                display.textContent = "Number is too big";
+            if (num2.length === 8){
+                display.textContent = "Num is too big";
                 num2 = "";
             } else {
                 num2 += btn.value;
@@ -146,14 +146,21 @@ backspace.addEventListener('click', () => {
 });
 
 function deleteNum(){
+
     if (currentNum == num1 && operator == ""){
         num1 = num1.slice(0, -1);
         currentNum = num1;
         display.textContent = num1;
+        if (num1 == ""){
+            display.textContent = 0;
+        }
     } else if (currentNum == num2){
         num2 = num2.slice(0, -1);
         currentNum = num2;
         display.textContent = num2;
+        if (num2 == ""){
+            display.textContent = 0;
+        }
     }
 
 }

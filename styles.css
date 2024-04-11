@@ -3,26 +3,53 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+    background-color: grey;
+}
+
+button {
+    border-radius: 5px;
+    background: rgb(21, 20, 20);
+    color: white;
+    font-size: 60px;
+    width: 80px;
+    cursor: pointer;
+}
+
+.layer{
+    display: flex;
+    gap: 10px;
+}
+
+.clear-btn,
+.backspace{
+    flex: 1;
+}
 
 .calculator {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: grey;
-    border: 1px solid black;
- 
+    background-color: rgb(27, 26, 26);
+    border: 5px solid rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .display {
-    border: 1px solid black;
-    background: white;
-    width: 120px;
-    height: 18px;
+    font:'digital-clock-font';
+    border: 5px solid rgb(65, 65, 65);
+    background: rgb(147, 220, 147);
+    width: 350px;
     text-align: end;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 50px;
+    margin-bottom: 15px;
+    border-radius: 10px;
 }
 
 .keyboard{
-
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
